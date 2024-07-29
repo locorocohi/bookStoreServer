@@ -1,11 +1,18 @@
 import { usersRepo } from "../../database"
 import { User } from "../../database/entity/User"
+import { generateTokens } from "../../services/generateTokens";
 
 export const createUser = async (req, res, next) => {
-  const newUser = new User();
-  newUser.login = req.body.login;
-  newUser.password = req.body.password;
-  const savedUser =  await usersRepo.save(newUser);
+  const { email, password } = req.body
+  const { accessToken , refreshToken } = generateTokens({email, password})
 
-  res.status(200).json(savedUser);
+  const newUser = new User();
+  newUser.email = email;
+  newUser.password = password;
+  newUser.accessToken = accessToken;
+
+  const savedUser =  await usersRepo.save(newUser);
+  res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+
+  res.json(savedUser);
 }

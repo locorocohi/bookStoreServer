@@ -8,5 +8,7 @@ export const config = {
     PORT: Number(process.env.DB_PORT),
     USERNAME: process.env.USERNAME,
     PASSWORD: process.env.PASSWORD,
-  }
+  },
+  SECRET_ACCESS_KEY: 'jwt-secret',
+  SECRET_REFRESH_KEY: 'jwt-refresh-secret',
 }
