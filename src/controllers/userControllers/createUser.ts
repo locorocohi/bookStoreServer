@@ -1,18 +1,13 @@
-import { usersRepo } from "../../database"
-import { User } from "../../database/entity/User"
 import { generateTokens } from "../../services/generateTokens";
+import { registration } from "../../services/userServices";
+import asyncHandler = require("express-async-handler");
 
-export const createUser = async (req, res, next) => {
+export const createUser = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body
-  const { accessToken , refreshToken } = generateTokens({email, password})
 
-  const newUser = new User();
-  newUser.email = email;
-  newUser.password = password;
-  newUser.accessToken = accessToken;
+  const createdUserId = await registration(email, password)
+  const { accessToken } = generateTokens({createdUserId})
 
-  const savedUser =  await usersRepo.save(newUser);
-  res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-
-  res.json(savedUser);
-}
+  res.cookie('accessToken', accessToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
+  res.json(createdUserId);
+})
