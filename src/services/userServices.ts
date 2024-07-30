@@ -1,18 +1,21 @@
 import { usersRepo } from "../database"
 import { User } from "../database/entity/User";
-import { CustomError } from "../errors/CustomError";
-import errorConstants from "../errors/errorConstants";
+const bcrypt = require('bcrypt')
 
 
-export const registration = async (email: string, password: string) => {
-  const candidate = await usersRepo.findOne({where: {email: email}})
-  if(candidate) {
-    throw new CustomError(errorConstants.USER_EXISTS);
-  }
+export const registration = async (email: string, password: string): Promise<User> => {
   const newUser = new User();
   newUser.email = email;
-  newUser.password = password;
-
+  newUser.password = await bcrypt.hash(password, 3);
   const savedUser =  await usersRepo.save(newUser);
-  return savedUser.id;
+  delete savedUser.password
+  return savedUser;
+}
+
+export const login = async (email, password) => {
+
+}
+
+export const logout = async () => {
+  
 }
