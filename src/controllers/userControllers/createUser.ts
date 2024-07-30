@@ -14,7 +14,7 @@ export const createUser = asyncHandler(async (req, res, next) => {
   }
 
   const user = await registration(email, password)
-  const { accessToken } = generateTokens(user)
+  const accessToken = generateTokens({id: user.id})
 
   res.cookie('accessToken', accessToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
   res.json({user, accessToken});

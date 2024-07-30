@@ -2,8 +2,7 @@ import { CustomError } from "./CustomError"
 
 export default (err, req, res, next) => {
   if (err instanceof CustomError) {
-    res.status(err.statusCode)
-    .json({ 
+    res.status(err.statusCode).json({ 
       status: err.statusCode, 
       message: err.message,
     })
