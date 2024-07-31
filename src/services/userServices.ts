@@ -3,7 +3,7 @@ import { User } from "../database/entity/User";
 const bcrypt = require('bcrypt')
 
 
-export const registration = async (email: string, password: string): Promise<User> => {
+export const createNewUser = async (email: string, password: string): Promise<User> => {
   const newUser = new User();
   newUser.email = email;
   newUser.password = await bcrypt.hash(password, 3);
@@ -14,8 +14,4 @@ export const registration = async (email: string, password: string): Promise<Use
 
 export const login = async (email, password) => {
 
-}
-
-export const logout = async () => {
-  
 }
