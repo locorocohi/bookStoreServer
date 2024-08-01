@@ -1,0 +1,18 @@
+import asyncHandler = require("express-async-handler");
+import { verifyTokens } from "../../services/tokenServices";
+import { usersRepo } from "../../database";
+import { CustomError } from "../../errors/CustomError";
+import errorConstants from "../../errors/errorConstants";
+
+export const getMe = asyncHandler(async(req, res, next) => {
+  const accessToken: string = req.cookies.accessToken;
+  const decodedPayload = verifyTokens(accessToken)
+
+  const findedUser = await usersRepo.findOne({where: {id: decodedPayload.id}});
+
+  if(!findedUser) {
+    throw new CustomError(errorConstants.USER_NOT_EXISTS);
+  }
+
+  res.json(decodedPayload)
+});

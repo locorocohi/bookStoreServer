@@ -1,5 +1,4 @@
 import { usersRepo } from "../../database"
-import { User } from "../../database/entity/User"
 
 export const getAllUsers = async (req, res, next) => {
   const usersArray = await usersRepo.find({
