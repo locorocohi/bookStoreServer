@@ -5,8 +5,10 @@ import errorConstants from "../../errors/errorConstants";
 import { generateTokens } from "../../services/tokenServices";
 const bcrypt = require('bcrypt')
 
-export const login = asyncHandler(async(req, res, next) => {
-  const { email, password } = req.body;
+import type { RequestHandler } from "express"
+
+export const login: RequestHandler = asyncHandler(async(req, res, next) => {
+  const { email, password } = req.body as {email: string, password: string};
 
   const findedUser = await usersRepo.findOne({where: {email: email}});
   if(!findedUser) {
@@ -23,4 +25,4 @@ export const login = asyncHandler(async(req, res, next) => {
 
   res.cookie('accessToken', accessToken, {maxAge: 3 * 60 * 1000, httpOnly: true});
   res.json({findedUser, accessToken});
-})
+});

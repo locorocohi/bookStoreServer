@@ -4,6 +4,8 @@ import { usersRepo } from "../../database";
 import { CustomError } from "../../errors/CustomError";
 import errorConstants from "../../errors/errorConstants";
 
+import type { RequestHandler } from "express"
+
 export const getMe = asyncHandler(async(req, res, next) => {
   const accessToken: string = req.cookies.accessToken;
   const decodedPayload = verifyTokens(accessToken)

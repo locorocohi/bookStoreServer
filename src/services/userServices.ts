@@ -11,7 +11,3 @@ export const createNewUser = async (email: string, password: string): Promise<Us
   delete savedUser.password
   return savedUser;
 }
-
-export const login = async (email, password) => {
-
-}
