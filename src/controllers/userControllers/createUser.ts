@@ -1,9 +1,10 @@
+import asyncHandler = require("express-async-handler");
+
 import { usersRepo } from "../../database";
 import { CustomError } from "../../errors/CustomError";
 import errorConstants from "../../errors/errorConstants";
 import { generateTokens } from "../../services/tokenServices";
 import { createNewUser } from "../../services/userServices";
-import asyncHandler = require("express-async-handler");
 
 import type { RequestHandler } from "express";
 

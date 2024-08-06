@@ -1,3 +1,4 @@
+import { updateUserData } from "./updateUserData";
 import { createUser } from "./createUser"
 import { getAllUsers } from "./getAllUsers";
 import { getMe } from "./getMe";
@@ -8,4 +9,5 @@ export default {
   getAllUsers: getAllUsers,
   login: login,
   getMe: getMe,
+  updateUserData: updateUserData,
 };
