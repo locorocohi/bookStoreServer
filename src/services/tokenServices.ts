@@ -2,7 +2,7 @@ import jwt = require('jsonwebtoken');
 import { config } from '../../config';
 
 export const generateTokens = (user :{ id: number}): string => {
-  const accessToken = jwt.sign(user, config.SECRET_ACCESS_KEY, { expiresIn: '1m'});
+  const accessToken = jwt.sign(user, config.SECRET_ACCESS_KEY, { expiresIn: '10m'});
   return accessToken;
 };
 

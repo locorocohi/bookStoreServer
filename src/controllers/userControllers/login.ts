@@ -15,7 +15,7 @@ export const login: RequestHandler = asyncHandler(async(req, res, next) => {
     throw new CustomError(errorConstants.USER_NOT_EXISTS);
   }
 
-  const isPassEquals = bcrypt.compare(password, findedUser.password);
+  const isPassEquals = await bcrypt.compare(password, findedUser.password);
   if(!isPassEquals) {
     throw new CustomError(errorConstants.ACCESS_DENIED);
   };
