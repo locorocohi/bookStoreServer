@@ -9,5 +9,6 @@ router.get('/me', controller.getMe);
 router.post('/create', controller.createUser);
 router.post('/login', controller.login);
 router.patch('/update', controller.updateUserData)
+router.patch('/avatar', controller.updateAvatar)
 
 export default router;

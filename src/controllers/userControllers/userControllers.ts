@@ -3,11 +3,13 @@ import { createUser } from "./createUser"
 import { getAllUsers } from "./getAllUsers";
 import { getMe } from "./getMe";
 import { login } from "./login";
+import { updateAvatar } from "./updateAvatar";
 
 export default {
-  createUser: createUser,
-  getAllUsers: getAllUsers,
-  login: login,
-  getMe: getMe,
-  updateUserData: updateUserData,
+  createUser,
+  getAllUsers,
+  login,
+  getMe,
+  updateUserData,
+  updateAvatar,
 };

@@ -4,6 +4,8 @@ const cors = require('cors');
 import errorHandler from "./errors/errorHandler";
 import mainRouter from "./routes/mainRouter";
 
+// обновить 
+
 const app = express();
 
 app.use(express.json());
