@@ -4,17 +4,32 @@ import type { RequestHandler } from "express"
 import { usersRepo } from "../../database"
 import { CustomError } from "../../errors/CustomError";
 import errorConstants from "../../errors/errorConstants";
+import { writeFile } from "fs";
+import { config } from "../../../config";
 
 export const updateAvatar: RequestHandler = asyncHandler(async (req, res, next) => {
-  const { image, id } = req.body;
-  console.log(image, id)
-  const findedUser = await usersRepo.findOne({where: {id: id}});
-
-  if(!findedUser) {
-    throw new CustomError(errorConstants.USER_NOT_EXISTS);
-  }
-
-  findedUser.avatar = image;
-  delete findedUser.password
-  res.json(findedUser)
+  const { base64Img, fileType, id } = req.body;
+  
+  const imagePayload = base64Img.split(';base64,')[1];
+  const avatarName = `${Date.now()}.${fileType}`;
+  const path = `static/${avatarName}`
+  
+  writeFile( path, imagePayload, {encoding: 'base64'},
+    (_err) => {
+      if (!_err) {
+        return;
+      }
+      throw new CustomError(errorConstants.WRONG_MEDIAFILE);
+    })
+    
+    const findedUser = await usersRepo.findOne({where: {id: id}});
+    if(!findedUser) {
+      throw new CustomError(errorConstants.USER_NOT_EXISTS);
+    }
+    
+  const avatarPath = `http://${config.HOST}:${config.PORT}/${avatarName}`;
+  findedUser.avatar = avatarPath;
+  const savedUser =  await usersRepo.save(findedUser);
+  delete savedUser.password
+  res.json(savedUser)
 });

@@ -5,4 +5,5 @@ export default {
   USER_NOT_EXISTS: {statusCode: 404, message: 'User with the same Email is not exists'},
   ACCESS_DENIED: {statusCode: 401, message: 'Wrong Email or Password'},
   NOT_VERIFIED_TOKEN: {statusCode: 401, message: 'Token not verified'},
+  WRONG_MEDIAFILE: {statusCode: 422, message: 'Some troubles with picture'},
 };
