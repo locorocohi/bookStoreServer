@@ -8,9 +8,9 @@ import { writeFile } from "fs";
 import { config } from "../../../config";
 
 export const updateAvatar: RequestHandler = asyncHandler(async (req, res, next) => {
-  const { base64Img, fileType, id } = req.body;
+  const { encodedImage, fileType, id } = req.body;
   
-  const imagePayload = base64Img.split(';base64,')[1];
+  const imagePayload = encodedImage.split(';base64,')[1];
   const avatarName = `${Date.now()}.${fileType}`;
   const path = `static/${avatarName}`
   
@@ -27,7 +27,7 @@ export const updateAvatar: RequestHandler = asyncHandler(async (req, res, next) 
       throw new CustomError(errorConstants.USER_NOT_EXISTS);
     }
     
-  const avatarPath = `http://${config.HOST}:${config.PORT}/${avatarName}`;
+  const avatarPath = `http://localhost:${config.PORT}/${avatarName}`;
   findedUser.avatar = avatarPath;
   const savedUser =  await usersRepo.save(findedUser);
   delete savedUser.password

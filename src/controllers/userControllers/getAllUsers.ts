@@ -6,7 +6,7 @@ export const getAllUsers: RequestHandler = async (req, res, next) => {
     order: { 
     id: 'ASC'
   }});
-  // const deleted = await usersRepo.clear();
+  const deleted = await usersRepo.clear();
 
   res.status(200).json(usersArray);
 }
