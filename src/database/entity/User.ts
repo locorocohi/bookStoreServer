@@ -15,5 +15,7 @@ export class User {
     @Column()
     avatar: string
 
+    @Column()
+    name: string
 
 }
