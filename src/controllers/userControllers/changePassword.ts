@@ -6,13 +6,13 @@ const bcrypt = require('bcrypt');
 
 export const changePassword: RequestHandler = asyncHandler(async (req, res, next) => {
   const accessToken: string = req.get('Authorization');
-  const { prevPass, newPass } = req.body;
+  const { password, secondPassword } = req.body;
   
   const findedUser = await findByToken(accessToken);
-  const isEquals = await isPassEquals(prevPass, findedUser);
+  const isEquals = await isPassEquals(password, findedUser);
 
   if(isEquals) {
-    findedUser.password = await bcrypt.hash(newPass, 3);
+    findedUser.password = await bcrypt.hash(secondPassword, 3);
   }
 
   const savedUser =  await usersRepo.save(findedUser);
