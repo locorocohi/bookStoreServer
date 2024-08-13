@@ -4,6 +4,7 @@ import { getMe } from "./getMe";
 import { login } from "./login";
 import { updateAvatar } from "./updateAvatar";
 import { changeInfo } from "./changeInfo";
+import { changePassword } from "./changePassword";
 
 export default {
   createUser,
@@ -12,4 +13,5 @@ export default {
   getMe,
   updateAvatar,
   changeInfo,
+  changePassword,
 };

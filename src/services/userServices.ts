@@ -28,3 +28,12 @@ export const findByToken = async (token) => {
 
   return findedUser;
 }
+
+export const isPassEquals = async (password, findedUser) => {
+  const isEquals = await bcrypt.compare(password, findedUser.password);
+    if(!isEquals) {
+      throw new CustomError(errorConstants.ACCESS_DENIED);
+    };
+  
+  return isEquals;
+}
