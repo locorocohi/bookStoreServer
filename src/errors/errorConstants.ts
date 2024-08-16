@@ -6,4 +6,5 @@ export default {
   ACCESS_DENIED: {statusCode: 401, message: 'Wrong Email or Password'},
   NOT_VERIFIED_TOKEN: {statusCode: 401, message: 'Token not verified'},
   WRONG_MEDIAFILE: {statusCode: 422, message: 'Some troubles with picture'},
+  GONE: {statusCode: 402, message: 'Resource is no longer available on the server and that this condition is likely to be permanent'},
 };
