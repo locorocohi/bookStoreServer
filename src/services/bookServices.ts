@@ -2,7 +2,7 @@ import { config } from "../../config";
 import { booksRepo } from "../database";
 import { Book } from "../database/entity/Book";
 
-const bookNames = [
+export const bookNames = [
   'The Chronicles of Narnia',
   'The Psychlogy of Money',
   'The Picture of Dorian Gray',
@@ -17,7 +17,7 @@ const bookNames = [
   'The Crying book',
 ];
 
-const authors = [
+export const authors = [
   'C. S. Lewis',
   'Morgan Housel',
   'Oscar Wilde',
@@ -32,7 +32,7 @@ const authors = [
   'Heather Christle',
 ];
 
-const genres = [
+export const genres = [
   'Fiction', 
   'Non-fiction', 
   'Science', 
@@ -41,7 +41,7 @@ const genres = [
   'Horror'
 ];
 
-const sortOptions = [
+export const sortOptions = [
   'Price', 
   'Name', 
   'Author name', 
