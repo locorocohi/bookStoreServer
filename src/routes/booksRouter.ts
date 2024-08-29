@@ -4,7 +4,7 @@ import controller from "../controllers/bookControllers/bookControllers"
 
 const router = express.Router();
 
-router.get('/', controller.getAllBooks);
+router.get('/', controller.getBooks);
 router.post('/seed', controller.seedByBooks);
 
 export default router;

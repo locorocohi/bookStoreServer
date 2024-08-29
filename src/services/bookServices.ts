@@ -44,7 +44,7 @@ export const genres = [
 export const sortOptions = [
   'Price', 
   'Name', 
-  'Author name', 
+  'Author', 
   'Rating', 
   'Date of issue'
 ];

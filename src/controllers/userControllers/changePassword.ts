@@ -4,10 +4,13 @@ import { usersRepo } from "../../database";
 import { findByToken, isPassEquals } from "../../services/userServices";
 const bcrypt = require('bcrypt');
 
-export const changePassword: RequestHandler = asyncHandler(async (req, res, next) => {
+type Keys = 'password' | 'thirdPassword';
+type ReqBodyType = Record<Keys, string>;
+
+export const changePassword: RequestHandler<unknown, unknown, ReqBodyType, unknown> = asyncHandler(async (req, res, next) => {
   const accessToken: string = req.get('Authorization');
   const { password, thirdPassword } = req.body;
-  
+
   const findedUser = await findByToken(accessToken);
   await isPassEquals(password, findedUser);
   

@@ -1,7 +1,7 @@
-import { getAllBooks } from "./getAllBooks";
+import { getBooks } from "./getBooks";
 import { seedByBooks } from "./seedTheDatabase";
 
 export default {
   seedByBooks,
-  getAllBooks,
+  getBooks,
 };
