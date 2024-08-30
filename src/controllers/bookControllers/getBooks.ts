@@ -1,6 +1,6 @@
 import { booksRepo } from "../../database";
 import type { RequestHandler } from "express";
-import { genres, sortOptions } from "../../services/bookServices";
+import { genres, ITEMS_PER_PAGE, sortOptions } from "../../services/bookServices";
 import { Book } from "../../database/entity/Book";
 
 type FiltersType = {
@@ -29,19 +29,17 @@ export const getBooks: BooksGetter = async (req, res, next) => {
   const { genre, sortOption, minPrice, maxPrice, page } = req.query;
 
   const queryKeys = Object.keys(req.query);
-  const isExistAnotherValues =
-    !queryKeys.length || (queryKeys.length === 1 && "page" in req.query);
+  const isExistParams = !queryKeys.length || (queryKeys.length === 1 && "page" in req.query);
 
-  const take = 12;
-  const skip = typeof parseInt(page) === "number" ? take * parseInt(page) : 0;
+  const skip = page && typeof page !== 'string' ? ITEMS_PER_PAGE * parseInt(page) : 0;
 
   const booksArray = booksRepo.createQueryBuilder("book");
-  if (isExistAnotherValues) {
+  if (isExistParams) {
     const [result, count] = await booksArray
       .skip(skip)
-      .take(take)
+      .take(ITEMS_PER_PAGE)
       .getManyAndCount();
-    const pageCount = Math.ceil(count / take);
+    const pageCount = Math.ceil(count / ITEMS_PER_PAGE);
 
     res
       .status(200)
@@ -49,15 +47,16 @@ export const getBooks: BooksGetter = async (req, res, next) => {
     return;
   }
 
-  const genresList = genre ? genre.split(",") : [];
-  if (genresList.length > 0) {
-    booksArray.where("book.genre IN (:...genres)", { genres: genresList });
+  if (genre) {
+    const genresList = genre.split(",");
+    booksArray.andWhere("book.genre IN (:...genres)", { genres: genresList });
   }
+
   if (minPrice) {
-    booksArray.where("book.price >= :price", { price: minPrice });
+    booksArray.andWhere("book.price >= :minPrice", { minPrice });
   }
   if (maxPrice) {
-    booksArray.where("book.price <= :price", { price: maxPrice });
+    booksArray.andWhere("book.price <= :maxPrice", { maxPrice });
   }
   if (sortOption) {
     booksArray.orderBy(`book.${sortOption}`, "ASC");
@@ -65,8 +64,9 @@ export const getBooks: BooksGetter = async (req, res, next) => {
 
   const [result, count] = await booksArray
     .skip(skip)
-    .take(take)
+    .take(ITEMS_PER_PAGE)
     .getManyAndCount();
-  const pageCount = Math.ceil(count / take);
+
+  const pageCount = Math.ceil(count / ITEMS_PER_PAGE);
   res.status(200).json({ booksArray: result, pageCount, sortOptions, genres });
 };

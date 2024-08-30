@@ -23,4 +23,7 @@ export class Book {
 
     @Column()
     price: number
+
+    @Column()
+    available: boolean
 }

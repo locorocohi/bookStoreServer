@@ -49,6 +49,8 @@ export const sortOptions = [
   'Date of issue'
 ];
 
+export const ITEMS_PER_PAGE = 12;
+
 const getRandomInteger = (min, max) => {
   const rand = min + Math.random() * (max + 1 - min);
   return Math.floor(rand);
@@ -72,6 +74,7 @@ export const seedTheDatabase = async (amount) => {
     newBook.genre = randomGenre;
     newBook.rating = randomRating;
     newBook.price = randomPrice;
+    newBook.available = true;
 
     const savedBook =  await booksRepo.save(newBook);
     result.push(savedBook)
