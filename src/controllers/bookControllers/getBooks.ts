@@ -27,11 +27,9 @@ type BooksRequestHandler = RequestHandler<
 
 export const getBooks: BooksRequestHandler = async (req, res, next) => {
   const { genre, sort, minPrice, maxPrice, page } = req.query;
-
   const queryKeys = Object.keys(req.query);
   const isExistParams = !queryKeys.length || (queryKeys.length === 1 && "page" in req.query);
-
-  const skip = page && typeof page !== 'string' ? ITEMS_PER_PAGE * parseInt(page) : 0;
+  const skip = page && typeof page === 'string' ? ITEMS_PER_PAGE * (parseInt(page) - 1) : 0;
 
   const booksArray = booksRepo.createQueryBuilder("book");
   if (isExistParams) {
