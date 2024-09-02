@@ -6,9 +6,17 @@ import { generateTokens } from "../../services/tokenServices";
 const bcrypt = require('bcrypt')
 
 import type { RequestHandler } from "express"
+import { User } from "../../database/entity/User";
 
-export const login: RequestHandler = asyncHandler(async(req, res, next) => {
-  const { email, password } = req.body as {email: string, password: string};
+type LoginReqHandler = RequestHandler<
+  Record<string,unknown>,
+  {findedUser: User; accessToken: string},
+  {email: string; password: string},
+  Record<string, unknown>
+>;
+
+export const login: LoginReqHandler = asyncHandler(async(req, res, next) => {
+  const { email, password } = req.body;
 
   const findedUser = await usersRepo.findOne({where: {email: email}});
   if(!findedUser) {

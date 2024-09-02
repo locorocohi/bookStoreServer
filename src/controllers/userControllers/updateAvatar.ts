@@ -6,8 +6,15 @@ import { CustomError } from "../../errors/CustomError";
 import errorConstants from "../../errors/errorConstants";
 import { writeFile, unlink } from "fs";
 import { config } from "../../../config";
+import { User } from "../../database/entity/User";
 
-export const updateAvatar: RequestHandler = asyncHandler(async (req, res, next) => {
+type AvatarUpdateHandlet = RequestHandler<
+  Record<string,unknown>,
+  User,
+  {encodedImage: string; fileType: string; id: number},
+  Record<string, unknown>
+>;
+export const updateAvatar: AvatarUpdateHandlet = asyncHandler(async (req, res, next) => {
   const { encodedImage, fileType, id } = req.body;
   
   const findedUser = await usersRepo.findOne({where: {id: id}});
