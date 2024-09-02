@@ -8,8 +8,10 @@ import { createNewUser } from "../../services/userServices";
 
 import type { RequestHandler } from "express";
 
+// type CreateUserHandler = RequestHandler<>;
+
 export const createUser: RequestHandler = asyncHandler(async (req, res, next) => {
-  const { email, password } = req.body as {email: string, password: string};
+  const { email, password } = req.body;
 
   const findedUser = await usersRepo.findOne({where: {email: email}});
   if(findedUser) {

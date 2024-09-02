@@ -5,7 +5,7 @@ import { Book } from "../../database/entity/Book";
 
 type FiltersType = {
   genre?: string;
-  sortOption?: string;
+  sort?: string;
   minPrice?: string;
   maxPrice?: string;
   page?: string;
@@ -18,15 +18,15 @@ type ResponseType = {
   pageCount: number;
 };
 
-type BooksGetter = RequestHandler<
+type BooksRequestHandler = RequestHandler<
   Record<string, unknown>,
   ResponseType,
   Record<string, unknown>,
   FiltersType
 >;
 
-export const getBooks: BooksGetter = async (req, res, next) => {
-  const { genre, sortOption, minPrice, maxPrice, page } = req.query;
+export const getBooks: BooksRequestHandler = async (req, res, next) => {
+  const { genre, sort, minPrice, maxPrice, page } = req.query;
 
   const queryKeys = Object.keys(req.query);
   const isExistParams = !queryKeys.length || (queryKeys.length === 1 && "page" in req.query);
@@ -58,8 +58,8 @@ export const getBooks: BooksGetter = async (req, res, next) => {
   if (maxPrice) {
     booksArray.andWhere("book.price <= :maxPrice", { maxPrice });
   }
-  if (sortOption) {
-    booksArray.orderBy(`book.${sortOption}`, "ASC");
+  if (sort) {
+    booksArray.orderBy(`book.${sort}`, "ASC");
   }
 
   const [result, count] = await booksArray

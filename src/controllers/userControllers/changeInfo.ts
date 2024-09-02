@@ -2,8 +2,15 @@ import type { RequestHandler } from "express";
 import asyncHandler = require("express-async-handler");
 import { usersRepo } from "../../database";
 import { findByToken } from "../../services/userServices";
+import { User } from "../../database/entity/User";
 
-export const changeInfo: RequestHandler = asyncHandler(async (req, res, next) => {
+type ChangeInfoRequestHandler = RequestHandler<
+  Record<string, unknown>,
+  User,
+  {name: string; email: string},
+  Record<string, unknown>
+>;
+export const changeInfo: ChangeInfoRequestHandler = asyncHandler(async (req, res, next) => {
   
   const { name, email } = req.body;
   const accessToken: string = req.get('Authorization');

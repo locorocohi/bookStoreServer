@@ -56,7 +56,7 @@ const getRandomInteger = (min, max) => {
   return Math.floor(rand);
 }
 
-export const seedTheDatabase = async (amount) => {
+export const seedTheDatabase = async (amount: number) => {
   const result = [];
   
   for(let i = 1; i <= amount; i++) {
