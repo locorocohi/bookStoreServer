@@ -26,4 +26,7 @@ export class Book {
 
     @Column()
     available: boolean
+
+    @Column()
+    description: string
 }

@@ -49,6 +49,8 @@ export const sortOptions = [
   'Date of issue'
 ];
 
+export const description = [ 'Rupi Kaur is the Writer of the Decade.” - The New Republic. \n#1 New York Times bestseller milk and honey is a collection of poetry and prose about survival. About the experience of violence, abuse, love, loss, and femininity.\nThe book is divided into four chapters, and each chapter serves a different purpose. Deals with a different pain. Heals a different heartache. milk and honey takes readers through a journey of the most bitter moments in life and finds sweetness in them because there is sweetness everywhere if you are just willing to look.'];
+
 export const ITEMS_PER_PAGE = 12;
 
 const getRandomInteger = (min, max) => {
@@ -64,7 +66,7 @@ export const seedTheDatabase = async (amount: number) => {
     const randomName = bookNames[getRandomInteger(1, 11)];
     const randomGenre = genres[getRandomInteger(1, 5)];
     const randomRating = getRandomInteger(1, 4);
-    const randomPrice = getRandomInteger(4, 24);
+    const randomPrice = getRandomInteger(0, 100);
     const randonCover = `http://localhost:${config.PORT}/covers/${getRandomInteger(1, 11)}.svg`;
 
     const newBook = new Book();
@@ -73,8 +75,9 @@ export const seedTheDatabase = async (amount: number) => {
     newBook.name = randomName;
     newBook.genre = randomGenre;
     newBook.rating = randomRating;
-    newBook.price = randomPrice;
+    newBook.price = randomPrice - 0.01;
     newBook.available = true;
+    newBook.description = description[0];
 
     const savedBook =  await booksRepo.save(newBook);
     result.push(savedBook)
