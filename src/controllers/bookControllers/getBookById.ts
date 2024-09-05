@@ -24,8 +24,10 @@ export const getBookById: GetBookHandler = asyncHandler(async (req, res, next) =
   const findedComments = await commentsRepo.find({
     where: {
       book: findedBook,
-    }
+    },
+    relations: {
+      author: true,
+  },
   })
-  
   res.json({ findedBook, findedComments }).status(200);
 })

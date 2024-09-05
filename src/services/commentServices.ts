@@ -2,12 +2,10 @@ import { booksRepo, commentsRepo, usersRepo } from "../database";
 import { Comment } from "../database/entity/Comment"
 import { CustomError } from "../errors/CustomError";
 import errorConstants from "../errors/errorConstants";
+import { findByToken } from "./userServices";
 
-export const createNewComment = async (text, userId, bookId) => {
-  const findedUser = await usersRepo.findOne({where: {id: userId}});
-  if(!findedUser) {
-    throw new CustomError(errorConstants.USER_NOT_EXISTS);
-  }
+export const createNewComment = async ({text, accessToken, bookId}) => {
+  const findedUser = await findByToken(accessToken);
 
   const findedBook = await booksRepo.findOne({where: {id: bookId}});
   if(!findedBook) {
