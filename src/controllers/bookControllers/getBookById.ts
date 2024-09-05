@@ -6,7 +6,10 @@ import { Comment } from "../../database/entity/Comment";
 
 type GetBookHandler = RequestHandler<
   {id: string},
-  { findedBook: Book, findedComments: Comment[] },
+  { findedBook: Book, 
+    findedComments: Comment[],
+    recommendedBooks: Book[],
+  },
   Record<string, unknown>,
   Record<string, unknown>
 >;
@@ -29,5 +32,10 @@ export const getBookById: GetBookHandler = asyncHandler(async (req, res, next) =
       author: true,
   },
   })
-  res.json({ findedBook, findedComments }).status(200);
+
+  const recommendedBooks = await booksRepo.createQueryBuilder('book')
+    .orderBy('book.rating', 'DESC')
+    .getMany()
+
+  res.json({ findedBook, findedComments, recommendedBooks: recommendedBooks.slice(0, 4) }).status(200);
 })
