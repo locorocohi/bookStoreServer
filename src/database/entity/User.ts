@@ -20,18 +20,10 @@ export class User {
     @Column()
     name: string
 
-    @OneToMany(() => Comment, (comment) => comment.author, {
-        onDelete: 'CASCADE'
-    })
-    @JoinColumn({referencedColumnName: "id" })
+    @OneToMany(() => Comment, (comment) => comment.author, { cascade: true })
     comments: Comment[]
 
     @ManyToMany(() => Book, (book)=> book.users)
-    @JoinTable({
-        name: 'userBooks',
-        joinColumn: {
-          referencedColumnName: "id" 
-        }
-    })
+    @JoinTable()
     books: Book[]
 }

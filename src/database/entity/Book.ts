@@ -35,10 +35,8 @@ export class Book {
     @OneToMany(() => Comment, (coment) => coment.book, {
         onDelete: 'CASCADE'
     })
-    @JoinColumn({referencedColumnName: "id" })
     comments: Comment[]
 
     @ManyToMany(() => User, (user) => user.books)
-    @JoinColumn({referencedColumnName: "id" })
     users: User[]
 }
