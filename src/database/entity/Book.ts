@@ -20,7 +20,7 @@ export class Book {
     @Column()
     genre: string
 
-    @Column()
+    @Column({type: 'float'})
     rating: number
 
     @Column()
