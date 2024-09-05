@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinColumn } from "typeorm"
+import { Comment } from "./Comment"
+import { User } from "./User"
 
 @Entity()
 export class Book {
@@ -29,4 +31,14 @@ export class Book {
 
     @Column()
     description: string
+
+    @OneToMany(() => Comment, (coment) => coment.book, {
+        onDelete: 'CASCADE'
+    })
+    @JoinColumn({referencedColumnName: "id" })
+    comments: Comment[]
+
+    @ManyToMany(() => User, (user) => user.books)
+    @JoinColumn({referencedColumnName: "id" })
+    users: User[]
 }

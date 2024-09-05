@@ -75,7 +75,7 @@ export const seedTheDatabase = async (amount: number) => {
     newBook.name = randomName;
     newBook.genre = randomGenre;
     newBook.rating = randomRating;
-    newBook.price = randomPrice - 0.01;
+    newBook.price = randomPrice;
     newBook.available = true;
     newBook.description = description[0];
 
