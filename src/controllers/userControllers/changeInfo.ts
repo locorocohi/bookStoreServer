@@ -1,20 +1,21 @@
 import type { RequestHandler } from "express";
 import asyncHandler = require("express-async-handler");
 import { usersRepo } from "../../database";
-import { CustomError } from "../../errors/CustomError";
-import errorConstants from "../../errors/errorConstants";
-import { verifyTokens } from "../../services/tokenServices";
+import { findByToken } from "../../services/userServices";
+import { User } from "../../database/entity/User";
 
-export const changeInfo: RequestHandler = asyncHandler(async (req, res, next) => {
-  const accessToken: string = req.get('Authorization').split(' ')[1];
-  const decodedPayload = verifyTokens(accessToken)
-
+type ChangeInfoRequestHandler = RequestHandler<
+  Record<string, unknown>,
+  User,
+  {name: string; email: string},
+  Record<string, unknown>
+>;
+export const changeInfo: ChangeInfoRequestHandler = asyncHandler(async (req, res, next) => {
+  
   const { name, email } = req.body;
-
-  const findedUser = await usersRepo.findOne({where: {id: decodedPayload.id}});
-    if(!findedUser) {
-      throw new CustomError(errorConstants.USER_NOT_EXISTS);
-    }
+  const accessToken: string = req.get('Authorization');
+  
+  const findedUser = await findByToken(accessToken)
 
   findedUser.email = email;
   findedUser.name = name;

@@ -1,20 +1,20 @@
 import asyncHandler = require("express-async-handler");
-import { verifyTokens } from "../../services/tokenServices";
-import { usersRepo } from "../../database";
-import { CustomError } from "../../errors/CustomError";
-import errorConstants from "../../errors/errorConstants";
 
 import type { RequestHandler } from "express"
+import { findByToken } from "../../services/userServices";
+import { User } from "../../database/entity/User";
 
-export const getMe: RequestHandler = asyncHandler(async(req, res, next) => {
-  const accessToken: string = req.get('Authorization').split(' ')[1];
-  const decodedPayload = verifyTokens(accessToken)
+type GetMeHandler = RequestHandler<
+  Record<string, unknown>,
+  User,
+  any,
+  Record<string, any>
+>;
 
-  const findedUser = await usersRepo.findOne({where: {id: decodedPayload.id}});
+export const getMe: GetMeHandler = asyncHandler(async(req, res, next) => {
+  const accessToken: string = req.get('Authorization');
 
-  if(!findedUser) {
-    throw new CustomError(errorConstants.USER_NOT_EXISTS);
-  }
+  const findedUser = await findByToken(accessToken);
 
   delete findedUser.password;
   res.json(findedUser)

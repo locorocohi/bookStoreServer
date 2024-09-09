@@ -7,9 +7,17 @@ import { generateTokens } from "../../services/tokenServices";
 import { createNewUser } from "../../services/userServices";
 
 import type { RequestHandler } from "express";
+import { User } from "../../database/entity/User";
 
-export const createUser: RequestHandler = asyncHandler(async (req, res, next) => {
-  const { email, password } = req.body as {email: string, password: string};
+type CreateUserHandler = RequestHandler<
+  Record<string,unknown>,
+  {user: User; accessToken: string},
+  {email: string; password: string},
+  Record<string, unknown>
+>;
+
+export const createUser: CreateUserHandler = asyncHandler(async (req, res, next) => {
+  const { email, password } = req.body;
 
   const findedUser = await usersRepo.findOne({where: {email: email}});
   if(findedUser) {
