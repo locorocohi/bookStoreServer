@@ -4,6 +4,8 @@ import { User } from "./entity/User";
 import { Book } from "./entity/Book";
 import { Comment } from "./entity/Comment";
 import { config } from "../../config";
+import { Cart } from "./entity/Cart";
+import { BooksToCart } from "./entity/BooksToCart";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -14,7 +16,7 @@ export const AppDataSource = new DataSource({
     database: config.DB.NAME,
     synchronize: true,
     logging: false,
-    entities: [User, Book, Comment],
+    entities: [User, Book, Comment, Cart, BooksToCart],
     migrations: [],
     subscribers: [],
 });

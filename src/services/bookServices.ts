@@ -66,7 +66,7 @@ export const seedTheDatabase = async (amount: number) => {
     const randomName = bookNames[getRandomInteger(1, 11)];
     const randomGenre = genres[getRandomInteger(1, 5)];
     const randomRating = getRandomInteger(1, 4);
-    const randomPrice = getRandomInteger(0, 100);
+    const randomPrice = getRandomInteger(0, 100) - 0.01;
     const randonCover = `http://localhost:${config.PORT}/covers/${getRandomInteger(1, 11)}.svg`;
 
     const newBook = new Book();

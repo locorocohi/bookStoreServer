@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinColumn, JoinTable } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinColumn, JoinTable, OneToOne } from "typeorm"
 import { Comment } from "./Comment"
 import { Book } from "./Book"
+import { Cart } from "./Cart"
 
 @Entity()
 export class User {
@@ -20,10 +21,10 @@ export class User {
     @Column()
     name: string
 
+    @OneToOne(() => Cart, (cart) => cart.user)
+    @JoinColumn()
+    cart: Cart
+
     @OneToMany(() => Comment, (comment) => comment.author, { cascade: true })
     comments: Comment[]
-
-    @ManyToMany(() => Book, (book)=> book.users)
-    @JoinTable()
-    books: Book[]
 }

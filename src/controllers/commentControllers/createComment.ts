@@ -2,7 +2,6 @@ import type { RequestHandler } from "express";
 import asyncHandler = require("express-async-handler");
 import { createNewComment } from "../../services/commentServices";
 import { Comment } from "../../database/entity/Comment";
-import { findByToken } from "../../services/userServices";
 
 type CreateCommentHandler = RequestHandler<
   Record<string,unknown>,

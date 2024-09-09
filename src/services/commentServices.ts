@@ -20,4 +20,4 @@ export const createNewComment = async ({text, accessToken, bookId}) => {
 
   const savedComment = await commentsRepo.save(newComment);
   return savedComment;
-}
+};

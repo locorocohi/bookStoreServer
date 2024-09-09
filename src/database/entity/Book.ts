@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm"
 import { Comment } from "./Comment"
-import { User } from "./User"
+import { BooksToCart } from "./BooksToCart"
 
 @Entity()
 export class Book {
@@ -23,7 +23,7 @@ export class Book {
     @Column({type: 'float'})
     rating: number
 
-    @Column()
+    @Column({type: 'float'})
     price: number
 
     @Column()
@@ -37,6 +37,6 @@ export class Book {
     })
     comments: Comment[]
 
-    @ManyToMany(() => User, (user) => user.books)
-    users: User[]
+    @OneToMany(() => BooksToCart, (booksToCart) => booksToCart.books)
+    booksToCart: BooksToCart[]
 }
