@@ -85,3 +85,13 @@ export const seedTheDatabase = async (amount: number) => {
 
   return result;
 }
+
+export const findBookById = async (id: number) => {
+  const findedBook = await booksRepo.findOne({
+    where: {
+      id: id,
+    }
+  });
+
+  return findedBook;
+};

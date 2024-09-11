@@ -16,8 +16,6 @@ export const createNewUser = async (email: string, password: string): Promise<Us
   newUser.name = '';
   newUser.password = await bcrypt.hash(password, 3);
   const savedUser =  await usersRepo.save(newUser);
-  console.log('Cart>>>', newCart)
-  console.log('Saved>>>', savedUser)
   delete savedUser.password;
   return savedUser;
 }
@@ -26,7 +24,11 @@ export const findByToken = async (token) => {
   const accessToken: string = token.split(' ')[1];
   const decodedPayload = verifyTokens(accessToken)
 
-  const findedUser = await usersRepo.findOne({where: {id: decodedPayload.id}});
+  const findedUser = await usersRepo.findOne(
+    { where: {id: decodedPayload.id}, 
+      relations: {cart: true},
+    });
+    
     if(!findedUser) {
       throw new CustomError(errorConstants.USER_NOT_EXISTS);
     }

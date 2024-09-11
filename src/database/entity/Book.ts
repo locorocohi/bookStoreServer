@@ -37,6 +37,6 @@ export class Book {
     })
     comments: Comment[]
 
-    @OneToMany(() => BooksToCart, (booksToCart) => booksToCart.books)
+    @OneToMany(() => BooksToCart, (booksToCart) => booksToCart.book)
     booksToCart: BooksToCart[]
 }

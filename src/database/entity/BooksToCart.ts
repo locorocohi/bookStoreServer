@@ -12,7 +12,7 @@ export class BooksToCart {
     booksCount: number
 
     @ManyToOne(() => Book, (book) => book.booksToCart)
-    books: Book
+    book: Book
 
     @ManyToOne(() => Cart, (cart) => cart.booksToCart)
     cart: Cart

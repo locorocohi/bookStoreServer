@@ -9,4 +9,4 @@ export const usersRepo = AppDataSource.getRepository(User);
 export const booksRepo = AppDataSource.getRepository(Book);
 export const commentsRepo = AppDataSource.getRepository(Comment);
 export const cartRepo = AppDataSource.getRepository(Cart);
-export const booksToCart = AppDataSource.getRepository(BooksToCart);
+export const booksToCartRepo = AppDataSource.getRepository(BooksToCart);
