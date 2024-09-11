@@ -25,6 +25,7 @@ export const createUser: CreateUserHandler = asyncHandler(async (req, res, next)
   }
 
   const user = await createNewUser(email, password);
+  console.log('User>>>', user)
   const accessToken = generateTokens({id: user.id});
 
   res.cookie('accessToken', accessToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
