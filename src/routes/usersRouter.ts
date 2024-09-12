@@ -14,3 +14,4 @@ router.patch('/changepassword', controller.changePassword);
 router.delete('/delete/:id', controller.deleteUser);
 
 export default router;
+

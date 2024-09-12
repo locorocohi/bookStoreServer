@@ -7,10 +7,15 @@ export const getBooksFromCart = asyncHandler (async (req, res, next) => {
   const accessToken: string = req.get('Authorization');
   const findedUser = await findByToken(accessToken);
   const cart = findedUser.cart;
-
   const findedBooksToCart = await booksToCartRepo.find({
     where: {cart},
     relations: {book: true},
-  })
-  res.json(findedBooksToCart).status(200);
+  });
+
+  const total = findedBooksToCart.reduce((acc, elem) => {
+    acc += elem.booksCount * elem.book.price;
+    return acc;
+  }, 0);
+
+  res.json({booksInCart: findedBooksToCart, total}).status(200);
 });
