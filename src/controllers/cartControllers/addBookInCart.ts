@@ -4,20 +4,34 @@ import { createBooksToCart } from "../../services/booksToCartServices";
 import { findByToken } from "../../services/userServices";
 import { BooksToCart } from "../../database/entity/BooksToCart";
 import { findBookById } from "../../services/bookServices";
+import { booksToCartRepo } from "../../database";
 
 type AddBookRequestHendler = RequestHandler<
   unknown,
   BooksToCart,
-  {bookId: number, count: number},
+  {bookId: number},
   unknown
 >;
 
 export const addBookInCart: AddBookRequestHendler = asyncHandler(async (req, res, next) => {
-  const {bookId, count} = req.body;
+  const {bookId} = req.body;
   const accessToken: string = req.get('Authorization');
   const findedUser = await findByToken(accessToken);
   const cart = findedUser.cart;
   const findedBook = await findBookById(bookId);
-  const booksToCart = await createBooksToCart({cart, book: findedBook, count});
-  res.json(booksToCart);
+  const findedBooksInCart = await booksToCartRepo.findOne({
+    where: {
+      book: findedBook,
+      cart,
+    },
+  })
+
+  if (!findedBooksInCart) {
+    const booksToCart = await createBooksToCart({cart, book: findedBook});
+    res.json(booksToCart);
+  }
+
+  findedBooksInCart.booksCount += 1; 
+  const savedbookInCart = await booksToCartRepo.save(findedBooksInCart);
+  res.json(savedbookInCart);
 });
