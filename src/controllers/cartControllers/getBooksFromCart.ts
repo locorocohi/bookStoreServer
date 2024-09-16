@@ -1,10 +1,16 @@
 import type { RequestHandler } from "express";
 import asyncHandler = require("express-async-handler");
 import { findByToken } from "../../services/userServices";
-import { booksToCartRepo } from "../../database";
 import { getBooksInCart, getCartTotal } from "../../services/cartServices";
+import { BooksToCart } from "../../database/entity/BooksToCart";
 
-export const getBooksFromCart = asyncHandler (async (req, res, next) => {
+type GetBooksFromCartHandler = RequestHandler<
+unknown,
+{booksInCart: BooksToCart[], total: number},
+unknown,
+unknown>;
+
+export const getBooksFromCart: GetBooksFromCartHandler = asyncHandler (async (req, res, next) => {
   const accessToken: string = req.get('Authorization');
   const findedUser = await findByToken(accessToken);
   const cart = findedUser.cart;

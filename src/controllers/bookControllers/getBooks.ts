@@ -9,6 +9,7 @@ type FiltersType = {
   minPrice?: string;
   maxPrice?: string;
   page?: string;
+  search?: string;
 };
 
 type ResponseType = {
@@ -26,7 +27,7 @@ type BooksRequestHandler = RequestHandler<
 >;
 
 export const getBooks: BooksRequestHandler = async (req, res, next) => {
-  const { genre, sort, minPrice, maxPrice, page } = req.query;
+  const { genre, sort, minPrice, maxPrice, page, search } = req.query;
   const queryKeys = Object.keys(req.query);
   const isExistParams = !queryKeys.length || (queryKeys.length === 1 && "page" in req.query);
   const skip = page && typeof page === 'string' ? ITEMS_PER_PAGE * (parseInt(page) - 1) : 0;
@@ -58,6 +59,10 @@ export const getBooks: BooksRequestHandler = async (req, res, next) => {
   }
   if (sort) {
     booksArray.orderBy(`book.${sort}`, "ASC");
+  }
+  if (search) {
+    booksArray.andWhere("book.author = :author", { author: search });
+    booksArray.andWhere("book.name = :name", { name: search  });
   }
 
   const [result, count] = await booksArray
