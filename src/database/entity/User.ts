@@ -27,4 +27,8 @@ export class User {
 
     @OneToMany(() => Comment, (comment) => comment.author, { cascade: true })
     comments: Comment[]
+
+    @ManyToMany(() => Book, (book) => book.users, {cascade: true})
+    @JoinTable()
+    favorites: Book []
 }

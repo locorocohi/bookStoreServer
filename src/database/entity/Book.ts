@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, ManyToMany } from "typeorm"
 import { Comment } from "./Comment"
 import { BooksToCart } from "./BooksToCart"
+import { User } from "./User"
 
 @Entity()
 export class Book {
@@ -39,4 +40,7 @@ export class Book {
 
     @OneToMany(() => BooksToCart, (booksToCart) => booksToCart.book)
     booksToCart: BooksToCart[]
+
+    @ManyToMany(() => User, (user) => user.favorites)
+    users: User []
 }

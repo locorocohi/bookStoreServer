@@ -18,12 +18,11 @@ type CreateUserHandler = RequestHandler<
 
 export const createUser: CreateUserHandler = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-
   const findedUser = await usersRepo.findOne({where: {email: email}});
   if(findedUser) {
     throw new CustomError(errorConstants.USER_EXISTS);
   }
-
+  
   const user = await createNewUser(email, password);
   const accessToken = generateTokens({id: user.id});
 

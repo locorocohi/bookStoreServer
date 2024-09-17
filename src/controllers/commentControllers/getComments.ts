@@ -18,6 +18,5 @@ export const getComments = asyncHandler(async (req, res, next) => {
     }
   })
   
-  console.log(findedComments)
   res.json(findedComments).status(200);
 })

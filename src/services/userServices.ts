@@ -11,6 +11,7 @@ export const createNewUser = async (email: string, password: string): Promise<Us
   const newUser = new User();
   const newCart = await createCart({user: newUser});
   newUser.cart = newCart;
+  newUser.favorites = [];
   newUser.email = email;
   newUser.avatar = '';
   newUser.name = '';
@@ -26,7 +27,7 @@ export const findByToken = async (token) => {
 
   const findedUser = await usersRepo.findOne(
     { where: {id: decodedPayload.id}, 
-      relations: {cart: true},
+      relations: {cart: true, favorites: true},
     });
     
     if(!findedUser) {
