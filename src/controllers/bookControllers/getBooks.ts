@@ -61,8 +61,8 @@ export const getBooks: BooksRequestHandler = async (req, res, next) => {
     booksArray.orderBy(`book.${sort}`, "ASC");
   }
   if (search) {
-    booksArray.andWhere("book.author = :author", { author: search });
-    booksArray.andWhere("book.name = :name", { name: search  });
+    booksArray.andWhere("book.author like :author", { author: `%${search}%` })
+    .orWhere("book.name like :name", { name: `%${search}%` });
   }
 
   const [result, count] = await booksArray
