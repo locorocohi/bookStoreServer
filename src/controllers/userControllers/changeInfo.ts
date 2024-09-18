@@ -7,7 +7,7 @@ import { User } from "../../database/entity/User";
 type ChangeInfoRequestHandler = RequestHandler<
   Record<string, unknown>,
   User,
-  {name: string; email: string},
+  {name: string; email?: string},
   Record<string, unknown>
 >;
 export const changeInfo: ChangeInfoRequestHandler = asyncHandler(async (req, res, next) => {
@@ -17,7 +17,9 @@ export const changeInfo: ChangeInfoRequestHandler = asyncHandler(async (req, res
   
   const findedUser = await findByToken(accessToken)
 
-  findedUser.email = email;
+  if (email) {
+    findedUser.email = email;
+  };
   findedUser.name = name;
   const savedUser =  await usersRepo.save(findedUser);
   delete savedUser.password
