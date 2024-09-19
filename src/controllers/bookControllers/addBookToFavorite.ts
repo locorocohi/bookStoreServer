@@ -1,4 +1,3 @@
-import type { RequestHandler } from "express";
 import asyncHandler = require("express-async-handler");
 import { findBookById } from "../../services/bookServices";
 import { findByToken } from "../../services/userServices";

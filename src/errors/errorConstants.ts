@@ -8,4 +8,5 @@ export default {
   NOT_VERIFIED_TOKEN: {statusCode: 401, message: 'Token not verified'},
   WRONG_MEDIAFILE: {statusCode: 422, message: 'Some troubles with picture'},
   GONE: {statusCode: 402, message: 'Resource is no longer available on the server and that this condition is likely to be permanent'},
+  UNAUTHORIZED: {statusCode: 401, message: 'Нужно авторизироваться.'}
 };

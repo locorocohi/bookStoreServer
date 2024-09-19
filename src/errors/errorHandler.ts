@@ -5,9 +5,10 @@ export default (err, req, res, next) => {
     res.status(err.statusCode).json({
       message: err.message,
     });
-  };
+  } else {
   res.status(500).json({
     name: err.name, 
     message: err.message,
-  });
+  })
+ };
 };

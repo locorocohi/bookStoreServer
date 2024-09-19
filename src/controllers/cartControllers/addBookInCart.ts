@@ -5,6 +5,8 @@ import { findByToken } from "../../services/userServices";
 import { BooksToCart } from "../../database/entity/BooksToCart";
 import { findBookById } from "../../services/bookServices";
 import { booksToCartRepo } from "../../database";
+import { CustomError } from "../../errors/CustomError";
+import errorConstants from "../../errors/errorConstants";
 
 type AddBookRequestHendler = RequestHandler<
   unknown,
@@ -16,6 +18,11 @@ type AddBookRequestHendler = RequestHandler<
 export const addBookInCart: AddBookRequestHendler = asyncHandler(async (req, res, next) => {
   const {bookId} = req.body;
   const accessToken: string = req.get('Authorization');
+  
+  if(!accessToken) {
+    throw new CustomError(errorConstants.UNAUTHORIZED)
+  };
+
   const findedUser = await findByToken(accessToken);
   const cart = findedUser.cart;
   const findedBook = await findBookById(bookId);
