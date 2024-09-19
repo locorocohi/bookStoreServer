@@ -5,7 +5,7 @@ import { findByToken, isPassEquals } from "../../services/userServices";
 import { User } from "../../database/entity/User";
 const bcrypt = require('bcrypt');
 
-type Keys = 'password' | 'thirdPassword';
+type Keys = 'password' | 'secondPassword';
 type ReqBodyType = Record<Keys, string>;
 
 type ChangePassRequestHandler = RequestHandler<
@@ -17,12 +17,12 @@ type ChangePassRequestHandler = RequestHandler<
 
 export const changePassword: ChangePassRequestHandler = asyncHandler(async (req, res, next) => {
   const accessToken: string = req.get('Authorization');
-  const { password, thirdPassword } = req.body;
+  const { password, secondPassword } = req.body;
 
   const findedUser = await findByToken(accessToken);
   await isPassEquals(password, findedUser);
   
-  findedUser.password = await bcrypt.hash(thirdPassword, 3);
+  findedUser.password = await bcrypt.hash(secondPassword, 3);
   const savedUser =  await usersRepo.save(findedUser);
   delete savedUser.password;
   res.json(savedUser);
