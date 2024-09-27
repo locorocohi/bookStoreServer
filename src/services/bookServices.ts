@@ -45,8 +45,7 @@ export const sortOptions = [
   'Price', 
   'Name', 
   'Author', 
-  'Rating', 
-  'Date of issue'
+  'Rating'
 ];
 
 export const description = [ 'Rupi Kaur is the Writer of the Decade.” - The New Republic. \n#1 New York Times bestseller milk and honey is a collection of poetry and prose about survival. About the experience of violence, abuse, love, loss, and femininity.\nThe book is divided into four chapters, and each chapter serves a different purpose. Deals with a different pain. Heals a different heartache. milk and honey takes readers through a journey of the most bitter moments in life and finds sweetness in them because there is sweetness everywhere if you are just willing to look.'];
